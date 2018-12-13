@@ -10,12 +10,12 @@ import re
 import chardet
 import os
 
-date_begin = 1113
-date_over = 1118
+date_begin = int(input("date_begin(mmdd):"))
+date_over = int(input("date_over(mmdd):"))
 
 for pic_date in range(date_begin,date_over+1):
     date_str = str(pic_date)+'/'
-    url_date = r'http://222.195.136.24/chart/cma/201811/2018'+date_str
+    url_date = r'http://222.195.136.24/chart/cma/201812/2018'+date_str
     res = urllib.request.urlopen(url_date)
     buf = res.read()
     encode_type = chardet.detect(buf)
@@ -26,45 +26,45 @@ for pic_date in range(date_begin,date_over+1):
     link_up8_list = re.findall(r"(?<=href=\").+?(?=_asia_85.jpg\")|(?<=href=\').+?(?=_asia_85.jpg\')" ,buf)
     link_nsp_list = re.findall(r"(?<=href=\").+?(?=_nsph_50.jpg\")|(?<=href=\').+?(?=_nsph_50.jpg\')" ,buf)
     for sfc_time in link_sfc_list:
-        url_pic = r'http://222.195.136.24/chart/cma/201811/2018'+date_str+sfc_time+'_china.jpg'
+        url_pic = r'http://222.195.136.24/chart/cma/201812/2018'+date_str+sfc_time+'_china.jpg'
         res_pic = urllib.request.urlopen(url_pic)
         html = res_pic.read()
         # 将图片保存到文件夹中，如果没有该文件夹则创建
         path = "D:\\work\\forecast\\data\\sfc"
-        if not os.path.isdir(path):  
-            os.makedirs(path)  
-        paths = path+'\\'      
+        if not os.path.isdir(path):
+            os.makedirs(path)
+        paths = path+'\\'
         f = open(paths+sfc_time+".jpg", 'wb')
         f.write(html)
         f.close
     for up5_time in link_up5_list:
-        url_pic = r'http://222.195.136.24/chart/cma/201811/2018'+date_str+up5_time+'_asia_50.jpg'
+        url_pic = r'http://222.195.136.24/chart/cma/201812/2018'+date_str+up5_time+'_asia_50.jpg'
         res_pic = urllib.request.urlopen(url_pic)
         html = res_pic.read()
         f = open("D:\\work\\forecast\\data\\500hpa\\"+up5_time+".jpg", 'wb')
         f.write(html)
         f.close
     for up7_time in link_up7_list:
-        url_pic = r'http://222.195.136.24/chart/cma/201811/2018'+date_str+up7_time+'_asia_70.jpg'
+        url_pic = r'http://222.195.136.24/chart/cma/201812/2018'+date_str+up7_time+'_asia_70.jpg'
         res_pic = urllib.request.urlopen(url_pic)
         html = res_pic.read()
         f = open("D:\\work\\forecast\\data\\700hpa\\"+up7_time+".jpg", 'wb')
         f.write(html)
         f.close
     for up8_time in link_up8_list:
-        url_pic = r'http://222.195.136.24/chart/cma/201811/2018'+date_str+up8_time+'_asia_85.jpg'
+        url_pic = r'http://222.195.136.24/chart/cma/201812/2018'+date_str+up8_time+'_asia_85.jpg'
         res_pic = urllib.request.urlopen(url_pic)
         html = res_pic.read()
         f = open("D:\\work\\forecast\\data\\850hpa\\"+up8_time+".jpg", 'wb')
         f.write(html)
-        f.close  
+        f.close
     for nsp_time in link_nsp_list:
-        url_pic = r'http://222.195.136.24/chart/cma/201811/2018'+date_str+nsp_time+'_nsph_50.jpg'
+        url_pic = r'http://222.195.136.24/chart/cma/201812/2018'+date_str+nsp_time+'_nsph_50.jpg'
         res_pic = urllib.request.urlopen(url_pic)
         html = res_pic.read()
         f = open("D:\\work\\forecast\\data\\nsph\\"+nsp_time+".jpg", 'wb')
         f.write(html)
-        f.close  
+        f.close
 
 # downroad aqi
 url_aqi = 'http://www.beijing-air.com/'
@@ -72,7 +72,7 @@ req_aqi = urllib.request.urlopen(url_aqi)
 buf_aqi = req_aqi.read()
 encode_type = chardet.detect(buf_aqi)
 buf_aqi = buf_aqi.decode(encode_type['encoding'])
-imglist=re.findall(r'(http:.+?w2.+?\.jpg)',buf_aqi) 
+imglist=re.findall(r'(http:.+?w2.+?\.jpg)',buf_aqi)
 f = open("D:\\work\\forecast\\data\\fct\\aqi.jpg", 'wb')
 img_html=urllib.request.urlopen(imglist[0])
 picture=img_html.read()
